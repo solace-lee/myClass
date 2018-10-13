@@ -73,9 +73,9 @@ export default {
     },
     loginOutBtn () {
       console.log('点击了退出登录键')
-      if(this.count < 10) {
+      if (this.count < 10) {
         this.count++
-        console.log(this.count + 'i');
+        console.log(this.count + 'i')
       } else {
         localStorage.setItem('loginActive', 0)
         this.$emit('loginOut', 0)
@@ -86,10 +86,10 @@ export default {
     homeTitle () {
       if (this.active == 1) {
         //  判断是否为登录状态
-        let studentName = localStorage.getItem('studentName');
-        let className = localStorage.getItem('className');
+        let studentName = localStorage.getItem('studentName')
+        let className = localStorage.getItem('className')
         this.title = studentName + '    ' + className
-      }else if (this.active == 0) {
+      } else if (this.active == 0) {
         this.title = '请登录'
       }
       //  设置主页中头部学生个人信息

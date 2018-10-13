@@ -3,8 +3,8 @@ export default {
     state.active = active
     try {
       localStorage.active = active
-    }
-    catch (e) {} 
-    finally {}
+    } catch (e) {
+      console.log(e)
+    } finally {}
   }
 }

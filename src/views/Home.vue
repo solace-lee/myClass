@@ -45,7 +45,7 @@ export default {
       let loginActive = localStorage.getItem('loginActive')
       let studentName = localStorage.getItem('studentName')
       let className = localStorage.getItem('className')
-      if (loginActive === 1) {
+      if (loginActive == 1) {
         this.loginInfo({ userName: studentName, className: className })
       }
       //  判断本地是否有保存登录状态，如果是，则立马登录
@@ -61,7 +61,7 @@ export default {
       const data = this.dataBase
       // console.log(data)
       data.forEach((item, index) => {
-        if (item.name === info.userName && item.className === info.className) {
+        if (item.name == info.userName && item.className == info.className) {
           this.examList.push(item)
           if (this.examList.length > 0) {
             this.active = 1 * 1
@@ -93,7 +93,8 @@ export default {
     this.getExamData()
     // 挂载后开始获取原始数据
     let loginActive = localStorage.getItem('loginActive')
-    if (loginActive === 1) {
+    console.log(loginActive + 'loginActive')
+    if (loginActive == 1) {
       this.active = loginActive * 1
       // 读取本都登录状态，如果有，则隐藏登录页
     }

@@ -34,11 +34,11 @@ export default {
   },
   watch: {
     active () {
-      if (this.active === 1) {
+      if (this.active == 1) {
         console.log('false')
         this.show = false
         // 如果已经登录则不显示登录状态
-      } else if (this.active === 0) {
+      } else if (this.active == 0) {
         this.show = true
       }
     }

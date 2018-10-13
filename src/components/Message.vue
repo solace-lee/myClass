@@ -19,7 +19,7 @@ export default {
   },
   watch: {
     msg () {
-      if (this.Status === 0) {
+      if (this.Status == 0) {
         //  status值为0时为重置错误信息代码，不显示
         this.show = false
       } else {
@@ -32,20 +32,20 @@ export default {
       }
     },
     active () {
-      if (this.active === 1) {
+      if (this.active == 1) {
         this.msg = '登录成功'
-      } else if (this.active === 0) {
+      } else if (this.active == 0) {
         this.msg = '已注销'
         this.resetStatus()
         //  注销后重置错误提示状态
       }
     },
     Status () {
-      if (this.active === 0) {
-        if (this.Status === 2) {
+      if (this.active == 0) {
+        if (this.Status == 2) {
           this.resetStatus()
           this.msg = '填写有误'
-        } else if (this.Status === 0) {
+        } else if (this.Status == 0) {
           this.msg = '正在重置提示信息'
         }
       }
