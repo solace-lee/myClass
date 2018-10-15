@@ -16,7 +16,7 @@
           </cube-slide-item>
 
           <cube-slide-item>
-            <message-list></message-list>
+            <message-list @selectSubject="selectSubject"></message-list>
           </cube-slide-item>
 
           <cube-slide-item>
@@ -37,7 +37,7 @@
           <!-- use en empty tag to replace default slot -->
           <span></span>
         </cube-tab>
-        <cube-tab label="成绩详情">
+        <cube-tab label="单科成绩">
           <div class="iconfont">&#xe706;</div>
           <!-- use en empty tag to replace default slot -->
           <span></span>
@@ -49,6 +49,7 @@
         </cube-tab>
       </cube-tab-bar>
       <exam-info v-show="show" :openInfo="openInfo" @hidden="hidden"></exam-info>
+      <subject-info v-if="subjectShow" @subjectHidden="subjectHidden" :subjectInfo="subjectInfo"></subject-info>
     </div>
   </div>
 </template>
@@ -57,7 +58,8 @@
 import ExamList from './ExamList/ExamList.vue'
 import MessageList from './MessageList/MessageList.vue'
 import UpLoadList from './UpLoadList/UpLoadList.vue'
-import ExamInfo from './ExamList/components/ExamInfo.vue'
+import ExamInfo from '../../components/ExamInfo.vue'
+import SubjectInfo from '../../components/SubjectInfo.vue'
 export default {
   name: 'mainhome',
   props: {
@@ -67,19 +69,22 @@ export default {
     ExamList,
     MessageList,
     UpLoadList,
-    ExamInfo
+    ExamInfo,
+    SubjectInfo
   },
   data () {
     return {
       openInfo: {},
+      subjectInfo: [],
       show: false,
+      subjectShow: false,
       initialIndex: 0,
       selectedLabelSlotsOnly: '考试列表',
       tabs: [{
         label: '考试列表',
         icon: 'cubeic-home'
       }, {
-        label: '成绩详情',
+        label: '单科成绩',
         icon: 'cubeic-message'
       }, {
         label: '成绩上传',
@@ -95,14 +100,14 @@ export default {
   watch: {
     initialIndex () {
       // 保存最后一次切换的nav页索引到本地存储
-      localStorage.setItem('index', this.initialIndex)
+      sessionStorage.setItem('index', this.initialIndex)
       this.$emit('change', this.initialIndex)
     }
   },
   methods: {
     clickHandler (label) {
       //  适合用来刷新（点击导航栏按钮事件）
-      console.log(label)
+      // console.log(label)
     },
     changeHandler (label) {
       //  监听导航栏改变事件
@@ -110,7 +115,7 @@ export default {
         case '考试列表':
           this.initialIndex = 0
           break
-        case '成绩详情':
+        case '单科成绩':
           this.initialIndex = 1
           break
         case '成绩上传':
@@ -130,14 +135,59 @@ export default {
       this.show = true
       // console.log(this.openInfo)
     },
+    selectSubject (info) {
+      //  获取单科成绩页点击按钮的值
+      this.subjectInfo = []
+      let data = this.examList
+      let subjectName = ''
+      switch (info) {
+        case 'chinese':
+          subjectName = '语文'
+          break
+        case 'math':
+          subjectName = '数学'
+          break
+        case 'english':
+          subjectName = '英语'
+          break
+        case 'politics':
+          subjectName = '政治'
+          break
+        case 'biology':
+          subjectName = '生物'
+          break
+        case 'geography':
+          subjectName = '地理'
+          break
+        case 'physics':
+          subjectName = '物理'
+          break
+        case 'chemistry':
+          subjectName = '化学'
+          break
+      }
+      data.forEach((item, index) => {
+        let list = {}
+        list.name = subjectName
+        list.subject = item.examName
+        list.value = item[info]
+        this.subjectInfo.push(list)
+        //  将匹配的值压入subjectInfo中
+      })
+      this.subjectShow = true
+    },
     hidden () {
       //  隐藏成绩详情
       this.show = false
+    },
+    subjectHidden () {
+      //  隐藏单科成绩详情
+      this.subjectShow = false
     }
   },
   created () {
     //  读取最近一次切换nav的记录并在挂载后跳转到该页
-    let index = localStorage.getItem('index')
+    let index = sessionStorage.getItem('index')
     this.initialIndex = index * 1
     this.changePage(index)
   }

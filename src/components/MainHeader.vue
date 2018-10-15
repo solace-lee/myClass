@@ -2,7 +2,7 @@
   <div class="mainheader">
     <div class="content">
       <div class="menu" @click="menuBar">
-        <div class="iconfont home-icon" v-show="this.more">&#xe654;</div>
+        <div class="iconfont home-icon">&#xe62d;</div>
       </div>
       <div class="title">
         {{this.title}}
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     changeNav (e) {
-      console.log('修改header的title值到索引' + e)
+      // console.log('修改header的title值到索引' + e)
       //  判断当前处于什么页面，修改header的title值
       switch (e) {
         case 0:
@@ -58,7 +58,7 @@ export default {
           this.more = false
           break
         case 1:
-          this.title = '当日作业'
+          this.title = '单科成绩'
           this.more = false
           break
         case 2:
@@ -68,14 +68,16 @@ export default {
       }
     },
     menuBar () {
-      console.log('点击了菜单键')
-      //  菜单键已被隐藏
+      console.log('点击了刷新键')
+      //  刷新数据库
+      // this.$router.go(0)
+      this.$emit('refresh')
     },
     loginOutBtn () {
       console.log('点击了退出登录键')
       if (this.count < 10) {
         this.count++
-        console.log(this.count + 'i')
+        // console.log(this.count + 'i')
       } else {
         localStorage.setItem('loginActive', 0)
         this.$emit('loginOut', 0)
@@ -88,7 +90,7 @@ export default {
         //  判断是否为登录状态
         let studentName = localStorage.getItem('studentName')
         let className = localStorage.getItem('className')
-        this.title = studentName + '    ' + className
+        this.title = studentName + '    ' + '(学号:' + className + ')'
       } else if (this.active == 0) {
         this.title = '请登录'
       }

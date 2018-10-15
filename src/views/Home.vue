@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="home">
-    <main-header :activeChange="activeChange" :active="active" @loginOut="loginOut"></main-header>
+    <main-header :activeChange="activeChange" :active="active" @loginOut="loginOut" @refresh="getExamData"></main-header>
     <main-home class="content" :examList="examList" @change="indexChange"></main-home>
     <login @loginInfo="loginInfo" :active="active"></login>
     <message :active="active" :Status="Status" @reset="reset"></message>
@@ -32,8 +32,16 @@ export default {
   },
   methods: {
     getExamData () {
-      axios.get('https://solace-lee.github.io/json/exam.json')
+      this.Status = 1 * 1
+      // 传递刷新数据库代码
+      let getTime = new Date().getTime()
+      //  解决浏览器缓存
+      let url = 'https://solace-lee.github.io/json/exam.json' + '?time=' + getTime
+      axios.get(url)
         .then(this.examData)
+        .catch( () => {
+          this.Status = 3 * 1
+        })
       //  获取原始数据
     },
     examData (res) {
@@ -51,7 +59,7 @@ export default {
       //  判断本地是否有保存登录状态，如果是，则立马登录
     },
     indexChange (index) {
-      console.log('index=' + index)
+      // console.log('index=' + index)
       this.activeChange = index
       // 根据页面更改navbar的索引值
     },
@@ -66,12 +74,12 @@ export default {
           if (this.examList.length > 0) {
             this.active = 1 * 1
             localStorage.setItem('loginActive', this.active)
-            console.log(this.active + '登录成功代码')
+            // console.log(this.active + '登录成功代码')
             //  遍历原始数据，找到匹配项然后push到最终记录中，同时保存登录状态到本地
           }
-        } else {
+        } else if (this.active != 1) {
           this.Status = 2 * 1
-          console.log(this.Status + '登录代码')
+          // console.log(this.Status + '登录代码')
           //  没有找到匹配项登录不成功，修改提醒状态
         }
       })
@@ -80,10 +88,10 @@ export default {
       this.active = outNO
       //  退出登录重置登录状态
     },
-    reset (i) {
+    reset () {
       setTimeout(() => {
-        this.Status = i * 1
-        console.log(this.Status + 'this.Status')
+        this.Status = 0 * 1
+        // console.log(this.Status + 'this.Status')
         //  3秒后重置错误提示状态
       }, 3000)
     }
@@ -93,7 +101,7 @@ export default {
     this.getExamData()
     // 挂载后开始获取原始数据
     let loginActive = localStorage.getItem('loginActive')
-    console.log(loginActive + 'loginActive')
+    // 是否读取上一次访问的登录状态
     if (loginActive == 1) {
       this.active = loginActive * 1
       // 读取本都登录状态，如果有，则隐藏登录页

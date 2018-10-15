@@ -43,10 +43,10 @@ export default {
     }
   },
   mounted () {
-    let contents = document.getElementsByClassName('list-wrapper')[0]
+    let contents = document.getElementsByClassName('exam-content')[0]
     let innerwidth = window.innerWidth
     contents.style.width = innerwidth + 'px'
-    console.log('手机屏幕宽度' + innerwidth)
+    // console.log('手机屏幕宽度' + innerwidth)
   }
 }
 </script>

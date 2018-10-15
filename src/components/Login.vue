@@ -3,9 +3,9 @@
     <div class="ifShow" v-show="show">
       <div class="content">
         <div class="title">学生成绩查询系统</div>
-        <input type="text" v-model="userName" class="txt" name="学生姓名" value="" placeholder="学生姓名">
+        <input type="text" v-model="userName" class="txt" name="学生姓名" value="" placeholder="请输入学生姓名">
         <div class="userinfo">{{userName}}</div>
-        <input type="text" v-model="className" class="txt" name="班级" value="" placeholder="班级(如：初一04班)">
+        <input type="text" v-model="className" class="txt" name="班级" value="" placeholder="请输入学号(3位数)">
         <div class="userinfo">{{className}}</div>
         <div class="login-in" v-on:click="handleClickLogin">{{loginBtn}}</div>
         <div class="info">
@@ -35,7 +35,6 @@ export default {
   watch: {
     active () {
       if (this.active == 1) {
-        console.log('false')
         this.show = false
         // 如果已经登录则不显示登录状态
       } else if (this.active == 0) {
@@ -66,14 +65,17 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   text-align: center
   .content
-    margin: 25% 0
+    margin: 22% 0
     color: #fff
     font-size: .46rem
     .title
       font-size: .66rem
-      padding: .2rem 0
+      padding: .6rem 0
     .txt
+      width: 4rem
+      border-radius: .6rem
       color: #000
+      padding: 0 .4rem
       margin: .2rem 0
     .userinfo
       min-height: .46rem
