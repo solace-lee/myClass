@@ -88,9 +88,12 @@ export default {
     homeTitle () {
       if (this.active == 1) {
         //  判断是否为登录状态
-        let studentName = localStorage.getItem('studentName')
-        let className = localStorage.getItem('className')
-        this.title = studentName + '    ' + '(学号:' + className + ')'
+        let userName = localStorage.getItem('userName')
+        let idName = localStorage.getItem('idName')
+        this.title = userName + '    ' + '(学号:' + idName + ')'
+      } else if (this.active == 2) {
+        let userName = localStorage.getItem('userName')
+        this.title = userName
       } else if (this.active == 0) {
         this.title = '请登录'
       }

@@ -2,7 +2,7 @@
   <div class="home">
     <main-header :activeChange="activeChange" :active="active" @loginOut="loginOut" @refresh="getExamData"></main-header>
     <main-home class="content" :examList="examList" @change="indexChange"></main-home>
-    <login @loginInfo="loginInfo" :active="active"></login>
+    <login @loginInfo="loginInfo" @teacherLoginInfo="teacherLoginInfo" :active="active"></login>
     <message :active="active" :Status="Status" @reset="reset"></message>
   </div>
 </template>
@@ -24,25 +24,34 @@ export default {
   data () {
     return {
       activeChange: 0, // navbar索引
-      examList: [], //  筛选后的最终数据
+      examList: [], //  筛选后的最终考试数据
+      classList: [], // 科任教师任课的班级
       dataBase: [], //  axios获取到的原始数据
+      teacherDataBase: [], // axios获取到的教师原始数据
       active: 0, //  登录状态
       Status: 0 //  登录错误提示代码
     }
   },
   methods: {
     getExamData () {
+      //  获取原始学生数据
       this.Status = 1 * 1
       // 传递刷新数据库代码
       let getTime = new Date().getTime()
       //  解决浏览器缓存
       let url = 'https://solace-lee.github.io/json/exam.json' + '?time=' + getTime
-      axios.get(url)
+      axios.get('/api/exam.json')
         .then(this.examData)
         .catch( () => {
           this.Status = 3 * 1
         })
-      //  获取原始数据
+      //  获取原始教师数据
+      let teacherUrl = 'https://solace-lee.github.io/json/teacher.json' + '?time=' + getTime
+      axios.get('/api/teacher.json')
+        .then(this.teacherData)
+        .catch( () => {
+          this.Status = 3 * 1
+        })
     },
     examData (res) {
       res = res.data
@@ -51,12 +60,26 @@ export default {
       }
       //  原始数据存储到database
       let loginActive = localStorage.getItem('loginActive')
-      let studentName = localStorage.getItem('studentName')
-      let className = localStorage.getItem('className')
       if (loginActive == 1) {
-        this.loginInfo({ userName: studentName, className: className })
+        let userName = localStorage.getItem('userName')
+        let idName = localStorage.getItem('idName')
+        this.loginInfo({ userName: userName, className: idName })
       }
-      //  判断本地是否有保存登录状态，如果是，则立马登录
+      //  判断本地是否有保存家长登录状态，如果是，则立马登录
+    },
+    teacherData (res) {
+      res = res.data
+      console.log(res)
+      if (res) {
+        this.teacherDataBase = res
+      }
+      let loginActive = localStorage.getItem('loginActive')
+      if (loginActive == 2) {
+        let userName = localStorage.getItem('userName')
+        let idName = localStorage.getItem('idName')
+        this.teacherLoginInfo({ userName: userName, className: idName })
+      }
+      //  判断本地是否有保存教师登录状态，如果是，则立马登录
     },
     indexChange (index) {
       // console.log('index=' + index)
@@ -69,7 +92,7 @@ export default {
       const data = this.dataBase
       // console.log(data)
       data.forEach((item, index) => {
-        if (item.name == info.userName && item.className == info.className) {
+        if (item.name == info.userName && item.studentID == info.className) {
           this.examList.push(item)
           if (this.examList.length > 0) {
             this.active = 1 * 1
@@ -77,10 +100,60 @@ export default {
             // console.log(this.active + '登录成功代码')
             //  遍历原始数据，找到匹配项然后push到最终记录中，同时保存登录状态到本地
           }
-        } else if (this.active != 1) {
+        } else if (index == data.length - 1 && this.active != 1) {
           this.Status = 2 * 1
           // console.log(this.Status + '登录代码')
           //  没有找到匹配项登录不成功，修改提醒状态
+        }
+      })
+    },
+    teacherLoginInfo (info) {
+      this.classList = []
+      //  登录前清空历史记录
+      const teacherData = this.teacherDataBase
+      // console.log(data)
+      teacherData.forEach((item, index) => {
+        if (item.name == info.userName && item.teacherid == info.className) {
+          // this.examList = data
+          if (item.class5) {
+            this.classList.push(item.class1,item.class2,item.class3,item.class4,item.class5)
+            this.filter()
+          } else if (item.class4) {
+            this.classList.push(item.class1,item.class2,item.class3,item.class4)
+            this.filter()
+          } else if (item.class3) {
+           this.classList.push(item.class1,item.class2,item.class3)
+           this.filter()
+          } else if (item.class2) {
+           this.classList.push(item.class1,item.class2)
+           this.filter()
+          } else if (item.class1) {
+           this.classList.push(item.class1)
+           this.filter()
+          }
+          this.active = 2 * 1
+          localStorage.setItem('loginActive', this.active)
+          console.log(this.active + '教师登录成功代码')
+          //  遍历教师数据，找到匹配项后确认登录，同时保存登录状态到本地
+        } else if (index == teacherData.length - 1 && this.active != 2) {
+          this.Status = 2 * 1
+          // console.log(this.Status + '登录代码')
+          //  没有找到匹配项登录不成功，修改提醒状态
+        }
+      })
+    },
+    filter () {
+      this.examList = []
+      //  登录前清空历史记录
+      console.log(this.classList)
+      //  任课班级列表
+      const list = this.classList
+      const data = this.dataBase
+      data.forEach((item, index) => {
+        for (var i = 0; i < list.length; i++) {
+          if (list[i] == item.className) {
+            this.examList.push(item)
+          }
         }
       })
     },
@@ -102,7 +175,7 @@ export default {
     // 挂载后开始获取原始数据
     let loginActive = localStorage.getItem('loginActive')
     // 是否读取上一次访问的登录状态
-    if (loginActive == 1) {
+    if (loginActive == 1 || loginActive == 2) {
       this.active = loginActive * 1
       // 读取本都登录状态，如果有，则隐藏登录页
     }

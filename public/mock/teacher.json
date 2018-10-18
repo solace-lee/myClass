@@ -1,0 +1,22 @@
+[
+  {
+    "teacherid": 101,
+    "name": "陈福兰",
+    "subject": "chinese",
+    "class1": "初一03班",
+    "class2": "初一04班",
+    "class3": "",
+    "class4": "",
+    "class5": ""
+  },
+  {
+    "teacherid": 102,
+    "name": "吴艾霞",
+    "subject": "math",
+    "class1": "初一04班",
+    "class2": "初一08班",
+    "class3": "",
+    "class4": "",
+    "class5": ""
+  }
+]

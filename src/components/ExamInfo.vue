@@ -5,7 +5,7 @@
       <cube-scroll>
         <div class="list-wrapper">
           <div class="content border-bottom">
-            <div class="left-txt">学号:{{openInfo.className}}</div>
+            <div class="left-txt">学号:{{openInfo.studentID}}</div>
             <div class="right-txt">{{openInfo.name}}</div>
           </div>
           <div class="content border-bottom">

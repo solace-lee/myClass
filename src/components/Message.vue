@@ -53,8 +53,8 @@ export default {
           this.msg = '加载数据库'
           break
         case 2:
-          this.resetStatus()
           this.msg = '填写有误'
+          this.resetStatus()
           break
         case 3:
           this.resetStatus()
