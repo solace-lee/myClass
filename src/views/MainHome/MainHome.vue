@@ -58,8 +58,22 @@
         </cube-tab>
       </cube-tab-bar>
       <exam-info v-show="show" :openInfo="openInfo" @hidden="hidden"></exam-info>
-      <subject-info v-if="subjectShow" @subjectHidden="subjectHidden" :subjectInfo="subjectInfo" :active="active" :classList="classList" :examNumber="examNumber"></subject-info>
-      <student-list v-if="studentListShow" :selectExamList="selectExamList" @studentListHidden="studentListHidden" @openIndex="openIndex"></student-list>
+      <subject-info
+        v-if="subjectShow"
+        @subjectHidden="subjectHidden"
+        :subjectInfo="subjectInfo"
+        :active="active"
+        :classList="classList"
+        :examNumber="examNumber"
+      >
+      </subject-info>
+      <student-list
+        v-if="studentListShow"
+        :selectExamList="selectExamList"
+        @studentListHidden="studentListHidden"
+        @openIndex="openIndex"
+      >
+      </student-list>
     </div>
   </div>
 </template>
@@ -152,7 +166,6 @@ export default {
           this.initialIndex = 2
           break
       }
-      // if you clicked different tab, this methods can be emitted
     },
     changePage (current) {
       //  监听到导航栏改变时激活的方法，将派发导航栏索引
@@ -222,7 +235,7 @@ export default {
     },
     studentListHidden () {
       this.studentListShow = false
-      console.log('隐藏了');
+      // console.log('隐藏了');
     },
     selectClass (value) {
       // console.log(value);
@@ -248,7 +261,7 @@ export default {
         }
       })
       this.studentListShow = true
-      console.log('选中了考试名字' + exam);
+      // console.log('选中了考试名字' + exam);
     }
   },
   created () {

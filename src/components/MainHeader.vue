@@ -142,35 +142,41 @@ export default {
   .loginOutMsg
     z-index: 99
     position: fixed
-    // display: flex
-    top: 36%
+    top: 0
     left: 0
     right: 0
-    color: #fff
-    width: 5rem
-    margin: 0 auto
-    padding: .2rem
-    text-align: center
-    border-radius: .2rem
-    background: $bgColor
-    .title
-      font-size: .5rem
-      margin: .2rem 0
-    .choose
-      display: flex
-      font-size: .4rem
-      .yes
-        flex: 1
-        margin: .2rem
-        padding: .2rem 0
-        background: rgba(0, 0, 0, 0.3)
-        border-radius: .2rem
-      .no
-        flex: 1
-        margin: .2rem
-        padding: .2rem 0
-        background: rgba(0, 0, 0, 0.3)
-        border-radius: .2rem
+    bottom: 0
+    background: rgba(0, 0, 0, 0.5)
+    .box
+      position: absolute
+      top: 36%
+      left: 0
+      right: 0
+      color: #fff
+      width: 5rem
+      margin: 0 auto
+      padding: .2rem
+      text-align: center
+      border-radius: .2rem
+      background: $bgColor
+      .title
+        font-size: .5rem
+        margin: .2rem 0
+      .choose
+        display: flex
+        font-size: .4rem
+        .yes
+          flex: 1
+          margin: .2rem
+          padding: .2rem 0
+          background: rgba(0, 0, 0, 0.3)
+          border-radius: .2rem
+        .no
+          flex: 1
+          margin: .2rem
+          padding: .2rem 0
+          background: rgba(0, 0, 0, 0.3)
+          border-radius: .2rem
   .iconfont
     font-size: 20px
     color: $headerColor

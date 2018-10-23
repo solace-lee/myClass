@@ -106,7 +106,6 @@ export default {
 <style lang="stylus" scoped>
 @import '../../../../src/assets/style/varibles.styl'
 .exam-info
-  // box-sizing: border-box
   background: #eee
   height: $headerHeight
   line-height: $headerHeight
@@ -138,9 +137,7 @@ export default {
   right: 0
   bottom: 0
   .list-wrapper
-    // box-sizing: border-box
     .content
-      // box-sizing: border-box
       display: flex;
       height: 1.2rem
       line-height: 1.2rem

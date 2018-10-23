@@ -59,7 +59,8 @@ export default {
       let getTime = new Date().getTime()
       //  解决浏览器缓存
       let url = 'https://solace-lee.github.io/json/exam.json' + '?time=' + getTime
-      axios.get('/api/exam.json')
+      // axios.get('/api/exam.json')
+      axios.get(url)
         .then(this.examData)
         .then(this.getTeacherData)
         .catch(() => {
@@ -70,7 +71,8 @@ export default {
       //  获取原始教师数据
       let getTime = new Date().getTime()
       let teacherUrl = 'https://solace-lee.github.io/json/teacher.json' + '?time=' + getTime
-      axios.get('/api/teacher.json')
+      // axios.get('/api/teacher.json')
+      axios.get(teacherUrl)
         .then(this.teacherData)
         .catch(() => {
           this.Status = 3 * 1
@@ -159,7 +161,7 @@ export default {
           }
           this.active = 2 * 1
           localStorage.setItem('loginActive', this.active)
-          console.log(this.active + '教师登录成功代码')
+          // console.log(this.active + '教师登录成功代码')
           //  遍历教师数据，找到匹配项后确认登录，同时保存登录状态到本地
         } else if (index == teacherData.length - 1 && this.active != 2) {
           this.Status = 2 * 1

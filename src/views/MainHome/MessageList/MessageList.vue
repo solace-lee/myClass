@@ -51,9 +51,9 @@ export default {
       .title
         flex: 1
         margin: .2rem
-        height: 1.2rem
+        height: 1rem
         border-radius: .2rem
-        line-height: 1.2rem
+        line-height: 1rem
         background: $bgColor
         font-size: .4rem
         color: #fff
