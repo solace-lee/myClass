@@ -80,6 +80,7 @@ export default {
 <style lang="stylus" scoped>
 @import '../../src/assets/style/varibles.styl'
 .ExamInfo
+  z-index: 20
   position: fixed
   top: 0
   left: 0

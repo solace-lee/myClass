@@ -1,9 +1,28 @@
 <template lang="html">
   <div class="home">
-    <main-header :activeChange="activeChange" :active="active" @loginOut="loginOut" @refresh="getExamData"></main-header>
-    <main-home class="content" :examList="examList" @change="indexChange"></main-home>
-    <login @loginInfo="loginInfo" @teacherLoginInfo="teacherLoginInfo" :active="active"></login>
-    <message :active="active" :Status="Status" @reset="reset"></message>
+    <main-header
+      :activeChange="activeChange"
+      :active="active"
+      @loginOut="loginOut"
+      @refresh="getExamData"
+    ></main-header>
+    <main-home
+      class="content"
+      :examList="examList"
+      :classList="classList"
+      :active="active"
+      @change="indexChange"
+    ></main-home>
+    <login
+      @loginInfo="loginInfo"
+      @teacherLoginInfo="teacherLoginInfo"
+      :active="active"
+    ></login>
+    <message
+      :active="active"
+      :Status="Status"
+      @reset="reset"
+    ></message>
   </div>
 </template>
 
@@ -42,14 +61,18 @@ export default {
       let url = 'https://solace-lee.github.io/json/exam.json' + '?time=' + getTime
       axios.get('/api/exam.json')
         .then(this.examData)
-        .catch( () => {
+        .then(this.getTeacherData)
+        .catch(() => {
           this.Status = 3 * 1
         })
+    },
+    getTeacherData () {
       //  获取原始教师数据
+      let getTime = new Date().getTime()
       let teacherUrl = 'https://solace-lee.github.io/json/teacher.json' + '?time=' + getTime
       axios.get('/api/teacher.json')
         .then(this.teacherData)
-        .catch( () => {
+        .catch(() => {
           this.Status = 3 * 1
         })
     },
@@ -69,7 +92,8 @@ export default {
     },
     teacherData (res) {
       res = res.data
-      console.log(res)
+      // console.log(res)
+      // 教师原始数据
       if (res) {
         this.teacherDataBase = res
       }
@@ -109,6 +133,8 @@ export default {
     },
     teacherLoginInfo (info) {
       this.classList = []
+      let allClass = '所有班级'
+      this.classList.push(allClass)
       //  登录前清空历史记录
       const teacherData = this.teacherDataBase
       // console.log(data)
@@ -116,20 +142,20 @@ export default {
         if (item.name == info.userName && item.teacherid == info.className) {
           // this.examList = data
           if (item.class5) {
-            this.classList.push(item.class1,item.class2,item.class3,item.class4,item.class5)
+            this.classList.push(item.class1, item.class2, item.class3, item.class4, item.class5)
             this.filter()
           } else if (item.class4) {
-            this.classList.push(item.class1,item.class2,item.class3,item.class4)
+            this.classList.push(item.class1, item.class2, item.class3, item.class4)
             this.filter()
           } else if (item.class3) {
-           this.classList.push(item.class1,item.class2,item.class3)
-           this.filter()
+            this.classList.push(item.class1, item.class2, item.class3)
+            this.filter()
           } else if (item.class2) {
-           this.classList.push(item.class1,item.class2)
-           this.filter()
+            this.classList.push(item.class1, item.class2)
+            this.filter()
           } else if (item.class1) {
-           this.classList.push(item.class1)
-           this.filter()
+            this.classList.push(item.class1)
+            this.filter()
           }
           this.active = 2 * 1
           localStorage.setItem('loginActive', this.active)
@@ -145,7 +171,7 @@ export default {
     filter () {
       this.examList = []
       //  登录前清空历史记录
-      console.log(this.classList)
+      // console.log(this.classList)
       //  任课班级列表
       const list = this.classList
       const data = this.dataBase

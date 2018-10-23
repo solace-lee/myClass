@@ -12,7 +12,16 @@
           @change="changePage"
         >
           <cube-slide-item>
-            <exam-list :examList="examList" @openIndex="openIndex"></exam-list>
+            <exam-list
+              :examList="examList"
+              :classList="classList"
+              :selectList="selectList"
+              :examNumber="examNumber"
+              :active="active"
+              @openIndex="openIndex"
+              @selectClass="selectClass"
+              @selectExam="selectExam"
+            ></exam-list>
           </cube-slide-item>
 
           <cube-slide-item>
@@ -49,7 +58,8 @@
         </cube-tab>
       </cube-tab-bar>
       <exam-info v-show="show" :openInfo="openInfo" @hidden="hidden"></exam-info>
-      <subject-info v-if="subjectShow" @subjectHidden="subjectHidden" :subjectInfo="subjectInfo"></subject-info>
+      <subject-info v-if="subjectShow" @subjectHidden="subjectHidden" :subjectInfo="subjectInfo" :active="active" :classList="classList" :examNumber="examNumber"></subject-info>
+      <student-list v-if="studentListShow" :selectExamList="selectExamList" @studentListHidden="studentListHidden" @openIndex="openIndex"></student-list>
     </div>
   </div>
 </template>
@@ -60,24 +70,32 @@ import MessageList from './MessageList/MessageList.vue'
 import UpLoadList from './UpLoadList/UpLoadList.vue'
 import ExamInfo from '../../components/ExamInfo.vue'
 import SubjectInfo from '../../components/SubjectInfo.vue'
+import StudentList from '../../components/StudentList.vue'
 export default {
   name: 'mainhome',
   props: {
-    examList: Array
+    examList: Array,
+    classList: Array,
+    active: Number
   },
   components: {
     ExamList,
     MessageList,
     UpLoadList,
     ExamInfo,
-    SubjectInfo
+    SubjectInfo,
+    StudentList
   },
   data () {
     return {
       openInfo: {},
       subjectInfo: [],
+      selectList: [],
+      selectExamList: [],
+      examNumber: [],
       show: false,
       subjectShow: false,
+      studentListShow: false,
       initialIndex: 0,
       selectedLabelSlotsOnly: '考试列表',
       tabs: [{
@@ -102,6 +120,18 @@ export default {
       // 保存最后一次切换的nav页索引到本地存储
       sessionStorage.setItem('index', this.initialIndex)
       this.$emit('change', this.initialIndex)
+    },
+    examList () {
+      let data = this.examList
+      this.examNumber = []
+      this.selectList = []
+      data.forEach((item, index) => {
+        if (this.examNumber.indexOf(item.examName) == -1) {
+          this.examNumber.push(item.examName)
+          //  获取原始数据中的考试名称，并去重
+        }
+      })
+      this.selectList = this.examList
     }
   },
   methods: {
@@ -131,8 +161,12 @@ export default {
     },
     openIndex (index) {
       //  监听成绩列表的点击事件，和对应索引值，并将对应数据存储到openInfo
-      this.openInfo = this.examList[index]
       this.show = true
+      if (this.active == 1) {
+        this.openInfo = this.examList[index]
+      } else if (this.active == 2) {
+        this.openInfo = this.selectExamList[index]
+      }
       // console.log(this.openInfo)
     },
     selectSubject (info) {
@@ -170,6 +204,8 @@ export default {
         let list = {}
         list.name = subjectName
         list.subject = item.examName
+        list.className = item.className
+        list.studentName = item.name
         list.value = item[info]
         this.subjectInfo.push(list)
         //  将匹配的值压入subjectInfo中
@@ -183,6 +219,36 @@ export default {
     subjectHidden () {
       //  隐藏单科成绩详情
       this.subjectShow = false
+    },
+    studentListHidden () {
+      this.studentListShow = false
+      console.log('隐藏了');
+    },
+    selectClass (value) {
+      // console.log(value);
+      let data = this.examList
+      if (value == '所有班级') {
+        this.selectList = data
+      } else {
+        this.selectList = []
+        data.forEach((item, index) => {
+          if (item.className == value) {
+            this.selectList.push(item)
+            //  获取与所选班级对应的学生成绩
+          }
+        })
+      }
+    },
+    selectExam (exam) {
+      this.selectExamList = []
+      let data = this.selectList
+      data.forEach((item, index) => {
+        if (item.examName == exam) {
+          this.selectExamList.push(item)
+        }
+      })
+      this.studentListShow = true
+      console.log('选中了考试名字' + exam);
     }
   },
   created () {
