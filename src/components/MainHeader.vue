@@ -86,12 +86,8 @@ export default {
       //  未防止家长查询其他孩子的成绩，将退出按钮设置成点击10次才能切换账号
     },
     homeTitle () {
-      if (this.active == 1) {
+      if (this.active == 1 || this.active == 2) {
         //  判断是否为登录状态
-        let userName = localStorage.getItem('userName')
-        let idName = localStorage.getItem('idName')
-        this.title = userName + '    ' + '(学号:' + idName + ')'
-      } else if (this.active == 2) {
         let userName = localStorage.getItem('userName')
         this.title = userName
       } else if (this.active == 0) {

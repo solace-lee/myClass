@@ -7,7 +7,7 @@
           <div class="teacher" v-if="!selectShow">
             <input type="text" v-model="userName" class="txt" name="教师姓名" value="" placeholder="请输入教师姓名">
             <div class="userinfo">{{userName}}</div>
-            <input type="text" v-model="className" class="txt" name="id" value="" placeholder="请输入教师ID">
+            <input type="text" v-model="className" class="txt" name="id" value="" placeholder="请输入密码">
             <div class="userinfo">{{className}}</div>
             <div class="login-in" v-on:click="handleTeacherLogin">{{loginBtn}}</div>
             <div class="login-change" v-on:click="change">切换账号</div>
@@ -19,7 +19,7 @@
           <div class="parents" v-if="selectShow">
             <input type="text" v-model="userName" class="txt" name="学生姓名" value="" placeholder="请输入学生姓名">
             <div class="userinfo">{{userName}}</div>
-            <input type="text" v-model="className" class="txt" name="班级" value="" placeholder="请输入学号(3位数)">
+            <input type="text" v-model="className" class="txt" name="班级" value="" placeholder="请输入密码">
             <div class="userinfo">{{className}}</div>
             <div class="login-in" v-on:click="handleClickLogin">{{loginBtn}}</div>
             <div class="login-change" v-on:click="change">切换账号</div>
