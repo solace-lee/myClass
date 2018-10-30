@@ -143,7 +143,16 @@ export default {
       teacherData.forEach((item, index) => {
         if (item.name == info.userName && item.teacherid == info.className) {
           // this.examList = data
-          if (item.class5) {
+          if (item.class8) {
+            this.classList.push(item.class1, item.class2, item.class3, item.class4, item.class5, item.class6, item.class7, item.class8)
+            this.filter()
+          } else if (item.class7) {
+            this.classList.push(item.class1, item.class2, item.class3, item.class4, item.class5, item.class6, item.class7)
+            this.filter()
+          } else if (item.class6) {
+            this.classList.push(item.class1, item.class2, item.class3, item.class4, item.class5, item.class6)
+            this.filter()
+          } else if (item.class5) {
             this.classList.push(item.class1, item.class2, item.class3, item.class4, item.class5)
             this.filter()
           } else if (item.class4) {
