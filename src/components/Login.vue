@@ -69,14 +69,14 @@ export default {
   },
   methods: {
     handleClickLogin () {
-      console.log('要登录了')
+      // console.log('要登录了')
       localStorage.setItem('userName', this.userName)
       localStorage.setItem('idName', this.className)
       this.$emit('loginInfo', { userName: this.userName, className: this.className })
       // 点击登录后保存用户名和班级名称到本地
     },
     handleTeacherLogin () {
-      console.log('教师登录')
+      // console.log('教师登录')
       localStorage.setItem('userName', this.userName)
       localStorage.setItem('idName', this.className)
       this.$emit('teacherLoginInfo', { userName: this.userName, className: this.className })
@@ -102,13 +102,13 @@ export default {
   .content
     margin: 22% 0
     color: #fff
-    font-size: .46rem
+    font-size: .44rem
     .title
       font-size: .64rem
       padding: .6rem 0
     .txt
       width: 4rem
-      border-radius: .6rem
+      border-radius: .1rem
       color: #000
       padding: 0 .4rem
       margin: .2rem 0
@@ -123,7 +123,7 @@ export default {
       width: 2.4rem
       padding: .18rem
       margin: .2rem auto
-      border-radius: .3rem
+      border-radius: .1rem
     .login-change
       // display: inline
       background: #666
@@ -134,7 +134,7 @@ export default {
       width: 1.8rem
       padding: .18rem .18rem
       margin: .3rem auto
-      border-radius: .2rem
+      border-radius: .1rem
     .info
       width: 60%
       padding: .18rem

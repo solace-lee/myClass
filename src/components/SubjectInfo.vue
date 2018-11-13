@@ -23,6 +23,15 @@
         >
         </cube-select>
       </div>
+      <div class="content border-bottom">
+        <div class="details">平均分</div>
+        <div :class="(this.flat >= 60) ? 'details' : 'details-red'">{{this.flat}}</div>
+      </div>
+      <div class="content border-bottom" v-if="!activeShow">
+        <div class="details">排名</div>
+        <div class="details">姓名</div>
+        <div class="details">成绩</div>
+      </div>
       <cube-scroll>
         <div class="list-wrapper">
           <div class="list" v-if="activeShow">
@@ -33,7 +42,8 @@
             <div class="line"></div>
           </div>
           <div class="list" v-if="!activeShow">
-            <div class="content border-bottom" v-for="(item, index) of subjectInfo3" :key="index">
+            <div class="content border-bottom" v-for="(item, index) of subjectInfo4" :key="index">
+              <div class="details">{{index + 1}}</div>
               <div class="details">{{item.studentName}}</div>
               <div :class="(item.value >= 60) ? 'details' : 'details-red'">{{item.value}}</div>
             </div>
@@ -58,8 +68,10 @@ export default {
     return {
       subjectInfo2: [],
       subjectInfo3: [],
+      subjectInfo4: [],
       activeShow: true,
       value: '所有班级',
+      flat: '',
       value2: '',
       autoPop: false,
       title: '选择班级',
@@ -93,13 +105,25 @@ export default {
     },
     changeExam (value, index, text) {
       this.subjectInfo3 = []
+      this.subjectInfo4 = []
       let data = this.subjectInfo2
       data.forEach((item, index) => {
         if (item.subject == value) {
           this.subjectInfo3.push(item)
         }
       })
-      // console.log('选中了考试名字' + value)
+      let arr = this.subjectInfo3
+      arr.sort(function(a,b){
+        return b.value - a.value;
+      })
+      this.subjectInfo4 = arr
+      // 单科成绩按成绩排序
+      let sum = 0
+      arr.forEach((item, index) => {
+        sum += item.value
+      })
+      this.flat = sum / arr.length
+      this.flat = this.flat.toFixed(2)
     }
   },
   mounted () {
@@ -143,8 +167,9 @@ export default {
     color: #fff
     text-align: center
     .title
-      font-size: .42rem
-      padding: .2rem
+      font-size: .38rem
+      line-height: .38rem
+      padding-bottom: .1rem
     .content
       display: flex
       .details
@@ -152,14 +177,14 @@ export default {
         margin: .2rem
         // height: 1.2rem
         // line-height: 1.2rem
-        font-size: .38rem
+        font-size: .34rem
       .details-red
         flex: 1
         color: #DC143C
         margin: .2rem
         // height: 1.2rem
         // line-height: 1.2rem
-        font-size: .38rem
+        font-size: .34rem
     .sels
       // font-size: .3rem
       height: .66rem
@@ -170,5 +195,5 @@ export default {
         height: .66rem
         line-height: .3rem
   .line
-    height: 1.4rem
+    height: 2.6rem
 </style>

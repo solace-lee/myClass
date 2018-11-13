@@ -14,7 +14,7 @@
     </div>
     <div class="loginOutMsg" v-show="show">
       <div class="box">
-        <div class="title">注销请猛击确定</div>
+        <div class="title">注销请点击确定</div>
         <div class="choose">
           <div class="yes" @click="loginOutBtn">确定</div>
           <div class="no" @click="showLoginOut">取消</div>
