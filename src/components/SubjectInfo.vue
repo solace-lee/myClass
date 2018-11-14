@@ -27,7 +27,7 @@
         <div class="details">平均分</div>
         <div :class="(this.flat >= 60) ? 'details' : 'details-red'">{{this.flat}}</div>
         <div class="details">及格率</div>
-        <div :class="(this.pass >= 0.6) ? 'details' : 'details-red'">{{this.pass + '%'}}</div>
+        <div :class="(this.pass >= 60) ? 'details' : 'details-red'">{{this.pass + '%'}}</div>
       </div>
       <div class="content border-bottom" v-if="!activeShow">
         <div class="details">排名</div>
