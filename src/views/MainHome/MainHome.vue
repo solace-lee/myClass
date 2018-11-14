@@ -206,6 +206,9 @@ export default {
         case 'geography':
           subjectName = '地理'
           break
+        case 'history':
+          subjectName = '历史'
+          break
         case 'physics':
           subjectName = '物理'
           break
@@ -238,7 +241,7 @@ export default {
       // console.log('隐藏了');
     },
     selectClass (value) {
-      // console.log(value);
+      // console.log(this.examList)
       let data = this.examList
       if (value == '所有班级') {
         this.selectList = data

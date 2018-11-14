@@ -23,9 +23,11 @@
         >
         </cube-select>
       </div>
-      <div class="content border-bottom">
+      <div class="content border-bottom" v-if="!activeShow">
         <div class="details">平均分</div>
         <div :class="(this.flat >= 60) ? 'details' : 'details-red'">{{this.flat}}</div>
+        <div class="details">及格率</div>
+        <div :class="(this.pass >= 0.6) ? 'details' : 'details-red'">{{this.pass + '%'}}</div>
       </div>
       <div class="content border-bottom" v-if="!activeShow">
         <div class="details">排名</div>
@@ -72,6 +74,7 @@ export default {
       activeShow: true,
       value: '所有班级',
       flat: '',
+      pass: '',
       value2: '',
       autoPop: false,
       title: '选择班级',
@@ -119,11 +122,17 @@ export default {
       this.subjectInfo4 = arr
       // 单科成绩按成绩排序
       let sum = 0
+      let count = 0
       arr.forEach((item, index) => {
         sum += item.value
+        if (item.value >= 60) {
+          count++
+        }
       })
       this.flat = sum / arr.length
       this.flat = this.flat.toFixed(2)
+      count = count / arr.length * 100
+      this.pass = count.toFixed(2)
     }
   },
   mounted () {
@@ -174,17 +183,17 @@ export default {
       display: flex
       .details
         flex: 1
-        margin: .2rem
+        margin: .2rem 0
         // height: 1.2rem
         // line-height: 1.2rem
-        font-size: .34rem
+        font-size: .32rem
       .details-red
         flex: 1
         color: #DC143C
-        margin: .2rem
+        margin: .2rem 0
         // height: 1.2rem
         // line-height: 1.2rem
-        font-size: .34rem
+        font-size: .32rem
     .sels
       // font-size: .3rem
       height: .66rem

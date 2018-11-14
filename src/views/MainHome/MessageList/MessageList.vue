@@ -52,7 +52,7 @@ export default {
         flex: 1
         margin: .2rem
         height: 1rem
-        border-radius: .2rem
+        border-radius: .1rem
         line-height: 1rem
         background: $bgColor
         font-size: .4rem

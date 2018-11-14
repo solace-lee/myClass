@@ -193,6 +193,11 @@ export default {
           }
         }
       })
+      if (this.active == 2) {
+        this.examList.sort(function(a, b){
+          return a.schoolRank - b.schoolRank
+        })
+      }
     },
     loginOut (outNO) {
       this.active = outNO

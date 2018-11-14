@@ -36,7 +36,7 @@ export default {
       // console.log('hidden')
     },
     examInfo (index) {
-      console.log('激活了')
+      // console.log('激活了')
       this.$emit('openIndex', index)
       //  向上派发点击事件及索引
     }
